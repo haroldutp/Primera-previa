@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+
+
+
+
+<head>
+
+
+    <meta charset="utf-8" />
+
+
+
+
+    <title>Juego 2D - lección 02</title>
+
+
+
+
+    <style>
+
+
+      * { padding: 0; margin: 0; } 
+
+
+      canvas { background: #00ff00; display: block; margin: 0 auto; }
+
+
+    </style>
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+	<canvas id="miCanvas" width="480" height="320"> </canvas>
+
+
+
+
+	<script>
+
+
+
+
+	    var canvas = document.getElementById("miCanvas");
+
+	    var ctx = canvas.getContext("2d");
+
+
+
+
+	    /* Se agrega la variable ballRadius, la cual define el tamaño de la bola */
+	    var ballRadius = 20; // <--------------------
+
+	    var x = canvas.width / 2;
+
+	    var y = canvas.height - 30;
+
+
+
+	    var dx = 2;
+
+	    var dy = -2;
+
+
+
+
+
+
+
+	    function dibujarBola() {
+
+
+	        ctx.beginPath();
+
+
+
+	        /* En lugar de un número fijo, se coloca la variable ballRadius */
+	        ctx.arc(x, y, ballRadius, 0, Math.PI*2); // <----------------
+
+	        ctx.fillStyle = "#ffff00";
+
+	        ctx.fill();
+
+
+
+	        ctx.closePath();
+
+
+
+
+	    }
+
+
+
+
+
+
+	    function dibujar() {
+
+
+	        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+	        dibujarBola();
+
+	        /* IMPORTANTE:
+
+	           EL OPERADOR || es el operador lógico OR
+	           Este operador se utiliza para indicar la condición de conjunción
+	           SI SE CUMPLE UNA CONDICIÓN, O SE CUMPLE OTRA CONDICIÓN, ENTONCES
+	           SE CUMPLE LA CONDICIÓN
+
+	           EL OPERADOR && es el oerador lógico AND
+	           Este operador se utiliza para indicar la condicion de disyunción
+	           SI SE CUMPLE UNA CONDICIÓN, Y SE CUMPLE OTRA CONDICIÓN (simultánea), ENTONCES
+	           SE CUMPLE LA CONDICIÓN
+
+	        */
+
+	        /* DESPUÉS DE DIBUJAR LA BOLA, SE DEBEN CAMBIAR LAS COORDENADAS
+	           EN LA lección 01 NO SE TENÍA CONTROL SOBRE LOS LÍMITES DE LA CAJA
+	           -----------------------------------------------------------------
+	           SI x + dx ES MAYOR AL ANCHO DEL CANVAS O MENOR AL TAMAÑO DEL
+	           RADIO DE LA BOLA (caso en el cual se encuentra hacia la izquierda)
+	           SE CAMBIA LA DIRECCIÓN DE AVANCE HORIZONTAL. 
+	           ESTO SE LOGRA CAMBIANDO EL SIGNO DE LA VARIABLE dx 
+	           ESTO HACE QUE SE CAMBIE EL SENTIDO DEL MOVIMIENTO HORIZONTAL */
+	        if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) { // <-----------------
+	            dx = dx * (-1);
+	        }
+
+	        /* SI y + dy ES MAYOR A LA ALTURA DEL CANVAS O MENOR AL TAMAÑO DEL
+	           RADIO DE LA BOLA, SE CAMBIA LA DIRECCIÓN DEL AVANCE VERTICAL.
+	           ESTO SE LOGRA CAMBIANDO EL SIGNO DE LA VARIABLE dy
+	           ESTE CAMBIO EN dy HACE QUE SE MUEVA VERTICALMENTE EN SENTIDO
+	           OPUESTO */       
+	        if(y + dy > canvas.height - ballRadius || y + dy < ballRadius) { // <-----------------
+	            dy = dy * (-1);
+	        }
+
+	        /* AQUÍ SE CAMBIA LA POSICIÓN DE LA BOLA. SE TOMA EN CUENTA LAS
+	           MODIFICACIONES A dx y dy, EN CASO DE QUE SE HUBIERAN PRODUCIDO */
+	        x = x + dx; // EQUIVALE A: x = x + dx; <----------------
+	        y = y + dy; // EQUIVALE A: y = y + dy; <----------------
+	    }
+
+
+
+
+
+	    setInterval(dibujar, 10);
+
+
+
+
+
+
+	</script>
+
+
+
+
+</body>
+
+
+
+
+</html>
